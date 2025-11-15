@@ -230,29 +230,43 @@ int main() {
   }
   case 5: {
     auto bubble_input = vector_to_sort;
-    double bubble_time = time_sort([](std::vector<int> &v) { bubble_sort(v); }, bubble_input);
+    double bubble_time =
+        time_sort([](std::vector<int> &v) { bubble_sort(v); }, bubble_input);
     bool bubble_ok = is_sorted(bubble_input);
 
     auto insertion_input = vector_to_sort;
-    double insertion_time = time_sort([](std::vector<int> &v) { insertion_sort(v); }, insertion_input);
+    double insertion_time = time_sort(
+        [](std::vector<int> &v) { insertion_sort(v); }, insertion_input);
     bool insertion_ok = is_sorted(insertion_input);
 
     auto merge_input = vector_to_sort;
-    double merge_time = time_sort([](std::vector<int> &v) { merge_sort(v, 0, static_cast<int>(v.size()) - 1); }, merge_input);
+    double merge_time = time_sort(
+        [](std::vector<int> &v) {
+          merge_sort(v, 0, static_cast<int>(v.size()) - 1);
+        },
+        merge_input);
     bool merge_ok = is_sorted(merge_input);
 
     auto quick_input = vector_to_sort;
-    double quick_time = time_sort([](std::vector<int> &v) { quick_sort(v, 0, static_cast<int>(v.size()) - 1); }, quick_input);
+    double quick_time = time_sort(
+        [](std::vector<int> &v) {
+          quick_sort(v, 0, static_cast<int>(v.size()) - 1);
+        },
+        quick_input);
     bool quick_ok = is_sorted(quick_input);
 
     std::cout << "\nBubble sort time: " << std::fixed << std::setprecision(3)
-          << bubble_time << " ms" << (bubble_ok ? " (OK)" : " (FAILED)") << "\n";
+              << bubble_time << " ms" << (bubble_ok ? " (OK)" : " (FAILED)")
+              << "\n";
     std::cout << "Insertion sort time: " << std::fixed << std::setprecision(3)
-          << insertion_time << " ms" << (insertion_ok ? " (OK)" : " (FAILED)") << "\n";
+              << insertion_time << " ms"
+              << (insertion_ok ? " (OK)" : " (FAILED)") << "\n";
     std::cout << "Merge sort time: " << std::fixed << std::setprecision(3)
-          << merge_time << " ms" << (merge_ok ? " (OK)" : " (FAILED)") << "\n";
+              << merge_time << " ms" << (merge_ok ? " (OK)" : " (FAILED)")
+              << "\n";
     std::cout << "Quick sort time: " << std::fixed << std::setprecision(3)
-          << quick_time << " ms" << (quick_ok ? " (OK)" : " (FAILED)") << "\n";
+              << quick_time << " ms" << (quick_ok ? " (OK)" : " (FAILED)")
+              << "\n";
     break;
   }
   default:
