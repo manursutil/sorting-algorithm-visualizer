@@ -21,7 +21,6 @@ void bubble_sort(std::vector<int>& a) {
     }
 }
 
-
 void insertion_sort(std::vector<int> &a) {
     int n = a.size();
     
@@ -131,7 +130,7 @@ int main() {
     std::cin >> length;
     
     std::vector<int> vector_to_sort = generate_random_vector(length);
-    std::cout << "Initial array:\n";
+    std::cout << "\nInitial array:\n";
     print_vector(vector_to_sort);
 
     if (!std::cin || length <= 0) {
@@ -140,7 +139,7 @@ int main() {
     }
 
     if (choice == 1) {
-        std::cout << "Bubble sort:\n";
+        std::cout << "\nBubble sort:\n";
 
         auto start = std::chrono::high_resolution_clock::now();
         bubble_sort(vector_to_sort);
@@ -150,7 +149,7 @@ int main() {
         print_vector(vector_to_sort);
         std::cout << "Time: " << std::fixed << std::setprecision(3) << elapsed.count() << " ms\n";
     } else if (choice == 2) {
-        std::cout << "Insertion sort:\n";
+        std::cout << "\nInsertion sort:\n";
 
         auto start = std::chrono::high_resolution_clock::now();
         insertion_sort(vector_to_sort);
@@ -160,7 +159,7 @@ int main() {
         print_vector(vector_to_sort);
         std::cout << "Time: " << std::fixed << std::setprecision(3) << elapsed.count() << " ms\n";
     } else if (choice == 3) {
-        std::cout << "Merge sort:\n";
+        std::cout << "\nMerge sort:\n";
 
         auto start = std::chrono::high_resolution_clock::now();
         merge_sort(vector_to_sort, 0, length - 1);
@@ -170,7 +169,7 @@ int main() {
         print_vector(vector_to_sort);
         std::cout << "Time: " << std::fixed << std::setprecision(3) << elapsed.count() << " ms\n";
     } else if (choice == 4) {
-        std::cout << "Quick sort:\n";
+        std::cout << "\nQuick sort:\n";
 
         auto start = std::chrono::high_resolution_clock::now();
         quick_sort(vector_to_sort, 0, length - 1);
@@ -209,7 +208,7 @@ int main() {
         std::chrono::duration<double, std::milli> elapsed_quick = end_quick - start_quick;
 
         // Print only times
-        std::cout << "Bubble sort time: " << std::fixed << std::setprecision(3) << elapsed_bubble.count() << " ms\n";
+        std::cout << "\nBubble sort time: " << std::fixed << std::setprecision(3) << elapsed_bubble.count() << " ms\n";
         std::cout << "Insertion sort time: " << std::fixed << std::setprecision(3) << elapsed_insertion.count() << " ms\n";
         std::cout << "Merge sort time: " << std::fixed << std::setprecision(3) << elapsed_merge.count() << " ms\n";
         std::cout << "Quick sort time: " << std::fixed << std::setprecision(3) << elapsed_quick.count() << " ms\n";
