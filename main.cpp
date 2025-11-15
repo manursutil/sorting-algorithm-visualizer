@@ -3,8 +3,6 @@
 #include <iomanip>
 #include <iostream>
 #include <random>
-#include <ratio>
-#include <utility>
 #include <vector>
 
 void bubble_sort(std::vector<int> &a) {
@@ -105,9 +103,9 @@ int partition(std::vector<int> &a, int low, int high) {
 
 void quick_sort(std::vector<int> &a, int low, int high) {
   if (low < high) {
-    int piv = partition(a, low, high);
-    quick_sort(a, low, piv - 1);
-    quick_sort(a, piv + 1, high);
+    int pivot_index = partition(a, low, high);
+    quick_sort(a, low, pivot_index - 1);
+    quick_sort(a, pivot_index + 1, high);
   }
 }
 
@@ -116,6 +114,7 @@ std::vector<int> generate_random_vector(int length);
 void print_vector(const std::vector<int> &vec);
 template <typename Func> double time_sort(Func function, std::vector<int> &a);
 bool is_sorted(const std::vector<int> &vec);
+void display_sort_result(const std::vector<int> &vec, double time);
 
 int main() {
   int choice;
@@ -153,79 +152,39 @@ int main() {
   switch (choice) {
   case 1: {
     std::cout << "\nBubble sort:\n";
-
     auto copy = vector_to_sort;
     double time = time_sort([](std::vector<int> &v) { bubble_sort(v); }, copy);
-
-    if (is_sorted(copy)) {
-      print_vector(copy);
-    } else {
-      std::cerr << "Error sorting the array\n";
-      return 1;
-    }
-
-    std::cout << "Time: " << std::fixed << std::setprecision(3) << time
-              << " ms\n";
+    display_sort_result(copy, time);
     break;
   }
   case 2: {
     std::cout << "\nInsertion sort:\n";
-
     auto copy = vector_to_sort;
     double time =
         time_sort([](std::vector<int> &v) { insertion_sort(v); }, copy);
-
-    if (is_sorted(copy)) {
-      print_vector(copy);
-    } else {
-      std::cerr << "Error sorting the array\n";
-      return 1;
-    }
-
-    std::cout << "Time: " << std::fixed << std::setprecision(3) << time
-              << " ms\n";
+    display_sort_result(copy, time);
     break;
   }
   case 3: {
     std::cout << "\nMerge sort:\n";
-
     auto copy = vector_to_sort;
     double time = time_sort(
         [&](std::vector<int> &v) {
           merge_sort(v, 0, static_cast<int>(v.size()) - 1);
         },
         copy);
-
-    if (is_sorted(copy)) {
-      print_vector(copy);
-    } else {
-      std::cerr << "Error sorting the array\n";
-      return 1;
-    }
-
-    std::cout << "Time: " << std::fixed << std::setprecision(3) << time
-              << " ms\n";
+    display_sort_result(copy, time);
     break;
   }
   case 4: {
     std::cout << "\nQuick sort:\n";
-
     auto copy = vector_to_sort;
     double time = time_sort(
         [&](std::vector<int> &v) {
           quick_sort(v, 0, static_cast<int>(v.size()) - 1);
         },
         copy);
-
-    if (is_sorted(copy)) {
-      print_vector(copy);
-    } else {
-      std::cerr << "Error sorting the array\n";
-      return 1;
-    }
-
-    std::cout << "Time: " << std::fixed << std::setprecision(3) << time
-              << " ms\n";
+    display_sort_result(copy, time);
     break;
   }
   case 5: {
@@ -294,7 +253,7 @@ std::vector<int> generate_random_vector(int length) {
 }
 
 void print_vector(const std::vector<int> &vec) {
-  for (int num : vec) {
+  for (const int &num : vec) {
     std::cout << num << " ";
   }
   std::cout << "\n";
@@ -310,4 +269,15 @@ template <typename Func> double time_sort(Func function, std::vector<int> &a) {
 
 bool is_sorted(const std::vector<int> &vec) {
   return std::is_sorted(vec.begin(), vec.end());
+}
+
+void display_sort_result(const std::vector<int> &vec, double time) {
+  if (is_sorted(vec)) {
+    print_vector(vec);
+    std::cout << "Time: " << std::fixed << std::setprecision(3) << time
+              << "ms\n";
+  } else {
+    std::cerr << "Error sorting the array\n";
+    std::exit(1);
+  }
 }
