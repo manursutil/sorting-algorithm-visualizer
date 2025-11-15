@@ -1,8 +1,10 @@
 #include <algorithm>
 #include <chrono>
+#include <cstddef>
 #include <iomanip>
 #include <iostream>
 #include <random>
+#include <string>
 #include <vector>
 
 void bubble_sort(std::vector<int> &a) {
@@ -124,7 +126,7 @@ int main() {
             << "[2] Insertion sort\n"
             << "[3] Merge sort\n"
             << "[4] Quick sort\n"
-            << "[5] Compare time of all sorting algorithms\n"
+            << "[5] Sorting algorithms benchmark\n"
             << "Enter choice: ";
   std::cin >> choice;
 
@@ -188,15 +190,24 @@ int main() {
     break;
   }
   case 5: {
+    struct SortResult {
+      std::string name;
+      double time;
+      bool success;
+    };
+
+    std::vector<SortResult> results;
+
     auto bubble_input = vector_to_sort;
     double bubble_time =
         time_sort([](std::vector<int> &v) { bubble_sort(v); }, bubble_input);
-    bool bubble_ok = is_sorted(bubble_input);
+    results.push_back({"Bubble sort", bubble_time, is_sorted(bubble_input)});
 
     auto insertion_input = vector_to_sort;
     double insertion_time = time_sort(
         [](std::vector<int> &v) { insertion_sort(v); }, insertion_input);
-    bool insertion_ok = is_sorted(insertion_input);
+    results.push_back(
+        {"Insertion sort", insertion_time, is_sorted(insertion_input)});
 
     auto merge_input = vector_to_sort;
     double merge_time = time_sort(
@@ -204,7 +215,7 @@ int main() {
           merge_sort(v, 0, static_cast<int>(v.size()) - 1);
         },
         merge_input);
-    bool merge_ok = is_sorted(merge_input);
+    results.push_back({"Merge sort", merge_time, is_sorted(merge_input)});
 
     auto quick_input = vector_to_sort;
     double quick_time = time_sort(
@@ -212,20 +223,20 @@ int main() {
           quick_sort(v, 0, static_cast<int>(v.size()) - 1);
         },
         quick_input);
-    bool quick_ok = is_sorted(quick_input);
+    results.push_back({"Quick sort", quick_time, is_sorted(quick_input)});
 
-    std::cout << "\nBubble sort time: " << std::fixed << std::setprecision(3)
-              << bubble_time << " ms" << (bubble_ok ? " (OK)" : " (FAILED)")
-              << "\n";
-    std::cout << "Insertion sort time: " << std::fixed << std::setprecision(3)
-              << insertion_time << " ms"
-              << (insertion_ok ? " (OK)" : " (FAILED)") << "\n";
-    std::cout << "Merge sort time: " << std::fixed << std::setprecision(3)
-              << merge_time << " ms" << (merge_ok ? " (OK)" : " (FAILED)")
-              << "\n";
-    std::cout << "Quick sort time: " << std::fixed << std::setprecision(3)
-              << quick_time << " ms" << (quick_ok ? " (OK)" : " (FAILED)")
-              << "\n";
+    std::sort(
+        results.begin(), results.end(),
+        [](const SortResult &a, const SortResult &b) { return a.time < b.time; });
+
+    std::cout << "\nAlgorithm           Time (ms)      Status\n";
+    std::cout << "---------------------------------------------\n";
+    for (std::size_t i = 0; i < results.size(); i++) {
+      std::cout << (i + 1) << ". " << std::setw(18) << std::left
+                << results[i].name << std::setw(15) << std::fixed
+                << std::setprecision(3) << results[i].time
+                << (results[i].success ? "OK" : "FAILED") << "\n";
+    }
     break;
   }
   default:
