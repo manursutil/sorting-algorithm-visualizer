@@ -1,21 +1,26 @@
 # Sorting Algorithm Visualizer
 
-A C++ command-line tool to visualize and compare the performance of different sorting algorithms.
+A small C++ command-line tool to run, verify and compare the performance of common sorting algorithms.
 
 ## Features
 
-- **Bubble Sort**: Classic O(n²) sorting algorithm
-- **Insertion Sort**: Efficient for small datasets, O(n²) worst case
-- **Merge Sort**: Divide-and-conquer approach, O(n log n)
-- **Quick Sort**: Fast average-case algorithm, O(n log n)
-- **Performance Comparison**: Run all algorithms on the same dataset and compare execution times
+- Bubble Sort (O(n²))
+- Insertion Sort (O(n²))
+- Merge Sort (O(n log n))
+- Quick Sort (O(n log n) average)
+- Built-in timing helper (`time_sort`) and verification (`is_sorted`)
+- Compare mode: run all algorithms on the same input and print their times with correctness status
 
 ## Building
 
-Compile with C++17 or later:
+Compile with a C++17-compatible compiler. Optimized builds are recommended for realistic timings:
 
 ```bash
-g++ -std=c++17 -O2 main.cpp -o main
+# portable
+- Execution times are measured in milliseconds with precision to 3 decimal places
+
+# or an optimized native build on x86_64/macOS
+- Arrays are generated with random integers between 1 and 100
 ```
 
 ## Usage
@@ -26,19 +31,24 @@ Run the program:
 ./main
 ```
 
-Then select which sorting algorithm to visualize:
-- `[1]` Bubble sort
-- `[2]` Insertion sort
-- `[3]` Merge sort
-- `[4]` Quick sort
-- `[5]` Compare all algorithms and display their execution times
+Menu options:
+- `[1]` Bubble sort — run and show sorted array + time
+- `[2]` Insertion sort — run and show sorted array + time
+- `[3]` Merge sort — run and show sorted array + time
+- `[4]` Quick sort — run and show sorted array + time
+- `[5]` Compare all algorithms and display their execution times with verification
 
-Enter the array size when prompted. The program will generate a random array, sort it, and display:
-- The initial array
-- The sorted array (for single algorithm selections)
-- Execution time in milliseconds
+When prompted, enter the array size (positive integer). The program generates a random array of integers in range [1, 100].
 
-## Example
+Behavior notes:
+- For readability, the program only prints the initial array when the length is <= 50.
+- Single-algorithm choices print the sorted array (from a copy used for timing) and the measured time in milliseconds.
+- Choice `5` (compare mode) runs each algorithm on a copy of the same input, times it using the `time_sort` helper (which measures only the sort call), and prints each algorithm's time followed by `(OK)` or `(FAILED)` depending on whether the result is sorted.
+- Timing precision: times are printed in milliseconds with three decimal places.
+
+## Example (compare mode)
+
+User selects option 5 and array length 100:
 
 ```
 ========== Sorting algorithm visualizer ==========
@@ -51,22 +61,14 @@ What sorting algorithm do you want to see?
 Enter choice: 5
 Choose the length of the random array to sort: 100
 
-Initial array:
-89 98 37 90 50 1 35 1 3 85 35 84 68 32 56 2 13 28 39 66 5 30 10 1 32 88 51 24 63 47 59 47 9 27 9 99 10 73 95 53 74 51 60 74 10 40 19 40 97 31 86 71 58 86 56 67 14 96 86 35 92 96 81 46 87 31 6 87 9 56 29 79 74 83 39 75 66 47 54 68 96 83 92 74 4 59 38 12 39 33 94 86 69 1 19 25 11 35 10 28 
-
-Bubble sort time: 0.058 ms
-Insertion sort time: 0.024 ms
-Merge sort time: 0.074 ms
-Quick sort time: 0.011 ms
+Bubble sort time: 0.009 ms (OK)
+Insertion sort time: 0.003 ms (OK)
+Merge sort time: 0.023 ms (OK)
+Quick sort time: 0.004 ms (OK)
 ```
 
-## Requirements
+## Notes & recommendations
 
-- C++17 compatible compiler (g++, clang, etc.)
-- Standard C++ library
-
-## Notes
-
-- Execution times are measured in milliseconds with precision to 3 decimal places
-- Arrays are generated with random integers between 1 and 100
-- For very large arrays, bubble sort may take significantly longer than other algorithms
+- Complexity matters: bubble/insertion are O(n²) and will be extremely slow for very large arrays (e.g. 1,000,000 elements). Prefer merge/quick or `std::sort` for large inputs.
+- Always compile with optimizations (`-O2` / `-O3`) when measuring performance.
+- For more stable numbers, run multiple trials and average or report median/stddev. I can add a benchmarking mode that repeats each sort and reports statistics if you want.
