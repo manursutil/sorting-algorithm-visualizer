@@ -7,18 +7,24 @@
 #include <chrono>
 #include <iomanip>
 
-std::vector<int> bubble_sort(std::vector<int> a, int &n) {
-   for (int i = 1; i < n; i++) {
-        for (int j = 0; j < n - 1; j++) {
-            if (a[j] > a[i]) {
-                std::swap(a[j], a[i]);
+void bubble_sort(std::vector<int>& a) {
+    int n = static_cast<int>(a.size());
+    for (int i = 0; i < n - 1; ++i) {
+        bool swapped = false;
+        for (int j = 0; j < n - i - 1; ++j) {
+            if (a[j] > a[j + 1]) {
+                std::swap(a[j], a[j + 1]);
+                swapped = true;
             }
         }
+        if (!swapped) break;
     }
-    return a;
 }
 
-std::vector<int> insertion_sort(std::vector<int> a, int &n) {
+
+void insertion_sort(std::vector<int> &a) {
+    int n = a.size();
+    
     for (int i = 1; i < n; i++) {
         int temp = a[i];
         int j = i - 1;
@@ -28,7 +34,6 @@ std::vector<int> insertion_sort(std::vector<int> a, int &n) {
         }
         a[j + 1] = temp;
     }
-    return a;
 }
 
 void merge(std::vector<int> &a, int left, int mid, int right) {
@@ -133,21 +138,21 @@ int main() {
         std::cout << "Bubble sort:\n";
 
         auto start = std::chrono::high_resolution_clock::now();
-        std::vector<int> sorted_bubble = bubble_sort(vector_to_sort, length);
+        bubble_sort(vector_to_sort);
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double, std::milli> elapsed = end - start;
 
-        print_vector(sorted_bubble);
+        print_vector(vector_to_sort);
         std::cout << "Time: " << std::fixed << std::setprecision(3) << elapsed.count() << " ms\n";
     } else if (choice == 2) {
         std::cout << "Insertion sort:\n";
 
         auto start = std::chrono::high_resolution_clock::now();
-        std::vector<int> sorted_insertion = insertion_sort(vector_to_sort, length);
+        insertion_sort(vector_to_sort);
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double, std::milli> elapsed = end - start;
 
-        print_vector(sorted_insertion);
+        print_vector(vector_to_sort);
         std::cout << "Time: " << std::fixed << std::setprecision(3) << elapsed.count() << " ms\n";
     } else if (choice == 3) {
         std::cout << "Merge sort:\n";
@@ -173,14 +178,14 @@ int main() {
         // Bubble sort
         auto bubble_input = vector_to_sort;
         auto start_bubble = std::chrono::high_resolution_clock::now();
-        std::vector<int> sorted_bubble = bubble_sort(bubble_input, length);
+        bubble_sort(bubble_input);
         auto end_bubble = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double, std::milli> elapsed_bubble = end_bubble - start_bubble;
 
         // Insertion sort
         auto insertion_input = vector_to_sort;
         auto start_insertion = std::chrono::high_resolution_clock::now();
-        std::vector<int> sorted_insertion = insertion_sort(insertion_input, length);
+        insertion_sort(insertion_input);
         auto end_insertion = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double, std::milli> elapsed_insertion = end_insertion - start_insertion;
 
