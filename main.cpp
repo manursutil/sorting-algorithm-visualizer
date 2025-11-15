@@ -117,6 +117,7 @@ void print_vector(const std::vector<int> &vec);
 template <typename Func> double time_sort(Func function, std::vector<int> &a);
 bool is_sorted(const std::vector<int> &vec);
 void display_sort_result(const std::vector<int> &vec, double time);
+void run_benchmark(const std::vector<int> &data);
 
 int main() {
   int choice;
@@ -190,53 +191,7 @@ int main() {
     break;
   }
   case 5: {
-    struct SortResult {
-      std::string name;
-      double time;
-      bool success;
-    };
-
-    std::vector<SortResult> results;
-
-    auto bubble_input = vector_to_sort;
-    double bubble_time =
-        time_sort([](std::vector<int> &v) { bubble_sort(v); }, bubble_input);
-    results.push_back({"Bubble sort", bubble_time, is_sorted(bubble_input)});
-
-    auto insertion_input = vector_to_sort;
-    double insertion_time = time_sort(
-        [](std::vector<int> &v) { insertion_sort(v); }, insertion_input);
-    results.push_back(
-        {"Insertion sort", insertion_time, is_sorted(insertion_input)});
-
-    auto merge_input = vector_to_sort;
-    double merge_time = time_sort(
-        [](std::vector<int> &v) {
-          merge_sort(v, 0, static_cast<int>(v.size()) - 1);
-        },
-        merge_input);
-    results.push_back({"Merge sort", merge_time, is_sorted(merge_input)});
-
-    auto quick_input = vector_to_sort;
-    double quick_time = time_sort(
-        [](std::vector<int> &v) {
-          quick_sort(v, 0, static_cast<int>(v.size()) - 1);
-        },
-        quick_input);
-    results.push_back({"Quick sort", quick_time, is_sorted(quick_input)});
-
-    std::sort(
-        results.begin(), results.end(),
-        [](const SortResult &a, const SortResult &b) { return a.time < b.time; });
-
-    std::cout << "\nAlgorithm           Time (ms)      Status\n";
-    std::cout << "---------------------------------------------\n";
-    for (std::size_t i = 0; i < results.size(); i++) {
-      std::cout << (i + 1) << ". " << std::setw(18) << std::left
-                << results[i].name << std::setw(15) << std::fixed
-                << std::setprecision(3) << results[i].time
-                << (results[i].success ? "OK" : "FAILED") << "\n";
-    }
+    run_benchmark(vector_to_sort);
     break;
   }
   default:
@@ -290,5 +245,55 @@ void display_sort_result(const std::vector<int> &vec, double time) {
   } else {
     std::cerr << "Error sorting the array\n";
     std::exit(1);
+  }
+}
+
+void run_benchmark(const std::vector<int> &data) {
+  struct SortResult {
+    std::string name;
+    double time;
+    bool success;
+  };
+
+  std::vector<SortResult> results;
+
+  auto bubble_input = data;
+  double bubble_time =
+      time_sort([](std::vector<int> &v) { bubble_sort(v); }, bubble_input);
+  results.push_back({"Bubble sort", bubble_time, is_sorted(bubble_input)});
+
+  auto insertion_input = data;
+  double insertion_time = time_sort(
+      [](std::vector<int> &v) { insertion_sort(v); }, insertion_input);
+  results.push_back(
+      {"Insertion sort", insertion_time, is_sorted(insertion_input)});
+
+  auto merge_input = data;
+  double merge_time = time_sort(
+      [](std::vector<int> &v) {
+        merge_sort(v, 0, static_cast<int>(v.size()) - 1);
+      },
+      merge_input);
+  results.push_back({"Merge sort", merge_time, is_sorted(merge_input)});
+
+  auto quick_input = data;
+  double quick_time = time_sort(
+      [](std::vector<int> &v) {
+        quick_sort(v, 0, static_cast<int>(v.size()) - 1);
+      },
+      quick_input);
+  results.push_back({"Quick sort", quick_time, is_sorted(quick_input)});
+
+  std::sort(
+      results.begin(), results.end(),
+      [](const SortResult &a, const SortResult &b) { return a.time < b.time; });
+
+  std::cout << "\nAlgorithm           Time (ms)      Status\n";
+  std::cout << "---------------------------------------------\n";
+  for (std::size_t i = 0; i < results.size(); i++) {
+    std::cout << (i + 1) << ". " << std::setw(18) << std::left
+              << results[i].name << std::setw(15) << std::fixed
+              << std::setprecision(3) << results[i].time
+              << (results[i].success ? "OK" : "FAILED") << "\n";
   }
 }
