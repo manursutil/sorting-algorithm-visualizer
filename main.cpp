@@ -112,7 +112,7 @@ void quick_sort(std::vector<int> &a, int low, int high) {
 }
 
 std::vector<int> generate_random_vector(int length);
-void print_vector(std::vector<int> vec);
+void print_vector(const std::vector<int> &vec);
 
 int main() {
     int choice;
@@ -133,6 +133,11 @@ int main() {
     std::vector<int> vector_to_sort = generate_random_vector(length);
     std::cout << "Initial array:\n";
     print_vector(vector_to_sort);
+
+    if (!std::cin || length <= 0) {
+        std::cerr << "Invalid length\n";
+        return 1;
+    }
 
     if (choice == 1) {
         std::cout << "Bubble sort:\n";
@@ -209,7 +214,8 @@ int main() {
         std::cout << "Merge sort time: " << std::fixed << std::setprecision(3) << elapsed_merge.count() << " ms\n";
         std::cout << "Quick sort time: " << std::fixed << std::setprecision(3) << elapsed_quick.count() << " ms\n";
     } else {
-        std::cout << "Error. Option not available\n";
+        std::cerr << "Error. Option not available\n";
+        return 1;
     }
    
     return 0;
@@ -230,7 +236,7 @@ std::vector<int> generate_random_vector(int length) {
     return random_vector;
 }
 
-void print_vector(std::vector<int> vec) {
+void print_vector(const std::vector<int> &vec) {
     for (int num : vec) {
         std::cout << num << " ";
     }
