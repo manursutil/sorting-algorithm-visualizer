@@ -135,9 +135,9 @@ void bubble_sort_visual(std::vector<int> &a) {
   print_vector(a);
   visualize_pause();
 
-  for (int i = 0; i < n - 1; i++) {
+  for (int i = 0; i < n - 1; ++i) {
     bool swapped = false;
-    for (int j = 0; j < n - i; j++) {
+    for (int j = 0; j < n - i - 1; ++j) {
       if (a[j] > a[j + 1]) {
         std::swap(a[j], a[j + 1]);
         swapped = true;
@@ -147,7 +147,7 @@ void bubble_sort_visual(std::vector<int> &a) {
       }
     }
     if (!swapped) {
-      std::cout << "No swaps in this pass, the array is sorted.\n";
+      std::cout << "No swaps in this pass, array is sorted.\n";
       break;
     }
     std::cout << "End of pass " << i + 1 << ":\n";
