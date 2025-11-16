@@ -11,17 +11,23 @@ A small C++ command-line tool to run, verify and compare the performance of comm
 - Built-in timing helper (`time_sort`) and verification (`is_sorted`)
 - Compare mode: run all algorithms on the same input and print their times with correctness status
 
+## Modules
+
+- `main.cpp`: CLI entry point that gathers user choices, sets up runs, and delegates to sorting/visualization helpers.
+- `sorts.h/cpp`: Pure algorithm implementations for bubble, insertion, merge, and quick sort.
+- `visualizer.h/cpp`: Step-by-step visual versions of each algorithm with pauses and annotated output.
+- `utils.h/cpp`: Shared helpers for generating random data, printing arrays, timing, displaying results, and benchmarking.
+
 ## Building
 
 Compile with a C++17-compatible compiler. Optimized builds are recommended for realistic timings:
 
 ```bash
-# portable
-- Execution times are measured in milliseconds with precision to 3 decimal places
-
-# or an optimized native build on x86_64/macOS
-- Arrays are generated with random integers between 1 and 100
+g++ -std=c++17 -O2 -o sorting main.cpp sorts.cpp visualizer.cpp utils.cpp
 ```
+
+- Execution times are measured in milliseconds with precision to 3 decimal places
+- Arrays are generated with random integers between 1 and 100
 
 ## Usage
 
@@ -57,14 +63,16 @@ What sorting algorithm do you want to see?
 [2] Insertion sort
 [3] Merge sort
 [4] Quick sort
-[5] Compare time of all sorting algorithms
+[5] Sorting algorithms benchmark
 Enter choice: 5
 Choose the length of the random array to sort: 100
 
-Bubble sort time: 0.009 ms (OK)
-Insertion sort time: 0.003 ms (OK)
-Merge sort time: 0.023 ms (OK)
-Quick sort time: 0.004 ms (OK)
+Algorithm           Time (ms)      Status
+---------------------------------------------
+1. Quick sort        0.022          OK
+2. Insertion sort    0.061          OK
+3. Bubble sort       0.150          OK
+4. Merge sort        0.177          OK
 ```
 
 ## Notes & recommendations
