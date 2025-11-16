@@ -447,7 +447,7 @@ void display_sort_result(const std::vector<int> &vec, double time) {
     print_vector(vec, -1, -1, -1);
   }
 
-  std::cout << "Time: " << std::fixed << std::setprecision(3) << time << "ms\n";
+  std::cout << "\nTime: " << std::fixed << std::setprecision(3) << time << "ms\n";
 }
 
 void run_benchmark(const std::vector<int> &data) {
