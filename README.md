@@ -34,7 +34,7 @@ g++ -std=c++17 -O2 -o sorting main.cpp sorts.cpp visualizer.cpp utils.cpp
 Run the program:
 
 ```bash
-./main
+./sorting
 ```
 
 Menu options:
